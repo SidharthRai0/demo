@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Anshu</title>
+<style>
+    *{margin:0;padding:0;box-sizing:border-box;font-family:'Comic Sans MS', cursive;}
+    body,html{height:100%;overflow-x:hidden;background:#111;}
+    .page{width:100%;height:100vh;display:flex;justify-content:center;align-items:center;flex-direction:column;position:absolute;top:0;left:0;transition:opacity 0.5s;}
+    .hidden{opacity:0;pointer-events:none;}
+    button{padding:15px 25px;font-size:18px;border:none;border-radius:10px;cursor:pointer;margin:10px;background:linear-gradient(90deg,#ff5f6d,#ffc371);color:white;transition:0.3s;}
+    button:hover{transform:scale(1.1);}
+
+    /* Neon Text - dimmer */
+    .neon-text{
+        color:#ddd;
+        font-size:50px;
+        font-weight:bold;
+        text-align:center;
+        text-shadow:
+        0 0 3px #ddd,
+        0 0 6px #ff5f6d88,
+        0 0 12px #ff5f6d88,
+        0 0 24px #ff5f6d66,
+        0 0 40px #ff5f6d44;
+        animation: flicker 1.5s infinite alternate;
+    }
+    @keyframes flicker{
+        0%,100%{opacity:1;}
+        50%{opacity:0.8;}
+    }
+
+    /* Balloon styling */
+    .balloon{position:absolute;width:50px;height:70px;border-radius:50%;animation:floatBalloon linear infinite;}
+    .balloon:after{content:"";position:absolute;width:2px;height:30px;background:#555;bottom:-30px;left:50%;transform:translateX(-50%);}
+    @keyframes floatBalloon{0%{transform:translateY(100vh);}100%{transform:translateY(-150px);}}
+
+    /* Page 1 */
+    #page1{background:linear-gradient(135deg,#1f1c2c,#928dab);text-align:center;overflow:hidden;}
+    #page1 h1{margin-bottom:30px;animation:bounce 1s infinite alternate;}
+    @keyframes bounce{0%{transform:translateY(0);}100%{transform:translateY(-20px);}}
+
+    /* Page 2 */
+    #page2{background:linear-gradient(135deg,#fbc2eb,#a6c1ee);color:white;flex-direction:column;overflow:hidden;}
+    #cake{position:relative;width:250px;margin-bottom:30px;}
+    .cake-layer{width:100%;height:60px;background:#d99c45;border-radius:0 0 15px 15px;margin-bottom:5px;position:relative;box-shadow:0 0 10px #d99c4566;}
+    .candle{width:20px;height:50px;background:#eee;position:absolute;top:-50px;border-radius:5px;box-shadow:0 0 5px #fff;}
+    .flame{
+        width:12px;height:25px;background:orange;
+        position:absolute;top:-25px;left:4px;border-radius:50%;
+        box-shadow:0 0 8px orange88, 0 0 15px yellow88, 0 0 20px #ff0a66;
+        animation:flickerC 0.3s infinite alternate;
+    }
+    @keyframes flickerC{0%{transform:scale(1);}100%{transform:scale(1.1);}}
+
+    /* Page 3 */
+    #page3{background:linear-gradient(135deg,#ff9a9e,#fad0c4);color:#fff;text-align:center;padding:20px;overflow:hidden;}
+    #page3 h2{
+        font-size:40px;margin-bottom:20px;animation:float 3s ease-in-out infinite;
+        text-shadow:
+        0 0 3px #fff44,
+        0 0 6px #ff69b488,
+        0 0 12px #ff69b488,
+        0 0 24px #ff69b466,
+        0 0 40px #ff69b444;
+    }
+    @keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-20px);}}
+
+    /* Confetti */
+    .confetti{position:absolute;width:10px;height:10px;background:red;top:0;animation:fall linear infinite;}
+    @keyframes fall{0%{transform:translateY(0) rotate(0deg);}100%{transform:translateY(100vh) rotate(360deg);}}
+</style>
+</head>
+<body>
+
+<!-- Page 1 -->
+<div id="page1" class="page">
+    <h1 class="neon-text">Happy Birthday Anshu!</h1>
+    <p style="color:#ddd;font-size:24px;margin-bottom:20px;text-align:center;text-shadow:0 0 3px #ddd,0 0 6px #ff5f6d88;">
+        From the depths of my heart, I wish you endless joy, laughter, and love. Anshu, may this year bring all your dreams to life!
+    </p>
+    <button id="surpriseBtn">Surprise!</button>
+</div>
+
+<!-- Page 2 -->
+<div id="page2" class="page hidden">
+    <div id="cake">
+        <div class="cake-layer"></div>
+        <div class="cake-layer"></div>
+        <div class="cake-layer"></div>
+        <div class="candle" style="left:40px;"><div class="flame"></div></div>
+        <div class="candle" style="left:110px;"><div class="flame"></div></div>
+        <div class="candle" style="left:180px;"><div class="flame"></div></div>
+    </div>
+    <div>
+        <button id="blowBtn">Blow Candles</button>
+        <button id="nextBtn" class="hidden">Next</button>
+    </div>
+</div>
+
+<!-- Page 3 -->
+<div id="page3" class="page hidden">
+    <h2>"Anshu, may your life shine as bright as these neon lights. May every moment be filled with love, joy, and unforgettable memories!"</h2>
+    <button id="wishAgainBtn">Wish Again</button>
+</div>
+
+<script>
+    const page1 = document.getElementById('page1');
+    const page2 = document.getElementById('page2');
+    const page3 = document.getElementById('page3');
+
+    const surpriseBtn = document.getElementById('surpriseBtn');
+    const blowBtn = document.getElementById('blowBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const wishAgainBtn = document.getElementById('wishAgainBtn');
+
+    const flames = document.querySelectorAll('.flame');
+
+    function showPage(show, hide){
+        hide.classList.add('hidden');
+        setTimeout(()=> show.classList.remove('hidden'),500);
+    }
+
+    // Forward navigation
+    surpriseBtn.addEventListener('click',()=>showPage(page2,page1));
+    blowBtn.addEventListener('click',()=>{
+        flames.forEach(f=>f.style.display='none');
+        blowBtn.classList.add('hidden');
+        nextBtn.classList.remove('hidden');
+
+        // Confetti animation
+        for(let i=0;i<50;i++){
+            const conf=document.createElement('div');
+            conf.classList.add('confetti');
+            conf.style.background=`hsl(${Math.random()*360},60%,50%)`;
+            conf.style.left=Math.random()*100+'vw';
+            conf.style.animationDuration=(2+Math.random()*3)+'s';
+            document.body.appendChild(conf);
+            setTimeout(()=>conf.remove(),3000);
+        }
+    });
+    nextBtn.addEventListener('click',()=>showPage(page3,page2));
+
+    // Wish again button
+    wishAgainBtn.addEventListener('click',()=>showPage(page1,page3));
+
+    // Floating balloons
+    function createBalloon(){
+        const balloon=document.createElement('div');
+        balloon.classList.add('balloon');
+        balloon.style.background=`hsl(${Math.random()*360},60%,50%)`;
+        balloon.style.left=Math.random()*100+'vw';
+        balloon.style.animationDuration=(5+Math.random()*5)+'s';
+        document.body.appendChild(balloon);
+        setTimeout(()=>balloon.remove(),10000);
+    }
+    setInterval(createBalloon,500);
+</script>
+
+</body>
+</html>
